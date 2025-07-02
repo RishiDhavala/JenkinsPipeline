@@ -1,0 +1,28 @@
+pipeline {
+  agent { 
+    docker { image 'rishidhavala/node-aws-cli:16'}
+  }
+
+  environment {
+    LAMBDA_FUNCTION_NAME='Mailer_Test'
+  }
+  stages {
+    stage('Version Check') {
+      steps {
+        sh 'node --version'
+        sh 'aws --version'
+        sh 'aws lambda list-functions'
+      }
+    }
+    stage('Trigger Lambda'){
+      steps{
+         sh '''
+          aws lambda invoke \
+            --function-name ${LAMBDA_FUNCTION_NAME \
+            response.json
+          cat response.json
+        '''
+      }
+    }
+  }
+}

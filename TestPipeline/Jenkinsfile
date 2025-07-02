@@ -5,20 +5,22 @@ pipeline {
 
   environment {
     LAMBDA_FUNCTION_NAME='Mailer_Test'
+    AWS_REGION='ap-south-1'
   }
   stages {
     stage('Version Check') {
       steps {
         sh 'node --version'
         sh 'aws --version'
-        sh 'aws lambda list-functions'
+        sh 'aws lambda list-functions --region ${AWS_REGION}'
       }
     }
     stage('Trigger Lambda'){
       steps{
          sh '''
           aws lambda invoke \
-            --function-name ${LAMBDA_FUNCTION_NAME \
+            --function-name ${LAMBDA_FUNCTION_NAME} \
+            --region ${AWS_REGION} \
             response.json
           cat response.json
         '''
